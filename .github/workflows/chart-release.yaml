@@ -1,0 +1,83 @@
+name: Release Charts
+
+on:
+  workflow_dispatch:
+    inputs:
+      chart:
+        type: choice
+        description: 'Select the chart to release'
+        options:
+          - 'kanban'
+        required: true
+        default: 'kanban'
+  workflow_call:
+    inputs:
+      chart:
+        type: string
+        required: true
+    outputs:
+      new-chart-version:
+        value: ${{ jobs.release.outputs.chart-version }}
+
+permissions:
+  contents: write
+  packages: write
+  actions: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-chart-release
+  cancel-in-progress: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    outputs:
+      chart-version: ${{ steps.publish_chart.outputs.chart-version }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          fetch-depth: 0
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3.0.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+
+      - name: Publish chart
+        id: publish_chart
+        env:
+          HELM_EXPERIMENTAL_OCI: '1'
+          CHARTS_REPO: ghcr.io/${{ github.repository }}
+          VERSION: ${{ github.ref_name }}
+          CHART_NAME: ${{ inputs.chart }}
+        run: |
+          CHART_PATH="charts/${CHART_NAME}"
+          CURRENT_CHART_VERSION=$(yq e '.version' ${CHART_PATH}/Chart.yaml)
+          CHART_VERSION=$(echo $CURRENT_CHART_VERSION | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
+          echo "Chart version: $CHART_VERSION"
+          cd $CHART_PATH
+          git pull origin ${{ github.ref_name }}
+          helm dep up
+          helm package . --version ${CHART_VERSION} --app-version ${VERSION}
+          helm push ${CHART_NAME}-${CHART_VERSION}.tgz oci://${CHARTS_REPO}
+          sed -i "s/version: ${CURRENT_CHART_VERSION}/version: ${CHART_VERSION}/g" Chart.yaml
+          git add Chart.yaml
+          git commit -m "📦 Bump ${CHART_NAME} chart version to ${CHART_VERSION}"
+          git push origin ${{ github.ref_name }}
+          echo "chart-version=${CHART_VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Debug output
+        run: |
+          echo "CHART_VERSION: ${{ steps.publish_chart.outputs.chart-version }}"
+

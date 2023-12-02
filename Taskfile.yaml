@@ -1,0 +1,90 @@
+version: '3'
+
+vars:
+  GOOS: "{{OS}}"
+
+tasks:
+
+  test:
+    cmds:
+      - go test ./...
+
+  build:
+    cmds:
+      - task: build:web
+      - task: copy:web
+      - task: build:{{OS}}
+
+  build:windows:
+    cmds:
+      - go env -w CGO_ENABLED=1 GOOS=windows GOARCH=amd64
+      - go build -o bin/server.exe ./cmd/server/main.go
+
+  build:darwin:
+    cmds:
+      - go env -w CGO_ENABLED=1 GOOS=darwin GOARCH=amd64
+      - go build -o bin/server ./cmd/server/main.go
+
+  build:linux:
+    cmds:
+      - go env -w CGO_ENABLED=1 GOOS=linux GOARCH=amd64
+      - go build -o bin/server ./cmd/server/main.go
+
+  build:web:
+    dir: web
+    cmds:
+      - npm install
+      - npm run build
+
+  copy:web:
+    cmds:
+      - task: copy:web:{{OS}}
+  copy:web:windows:
+    cmds:
+      - powershell -Command Copy-Item -Path web/dist/* -Destination cmd/server/web/dist/ -Recurse
+  copy:web:darwin:
+    cmds:
+      - cp -r web/dist/* cmd/server/web/dist/
+  copy:web:linux:
+    cmds:
+      - cp -r web/dist/* cmd/server/web/dist/
+
+  run:
+    cmds:
+      - task: build:{{OS}}
+      - task: run:{{OS}}
+        vars:
+          ARGS: "{{.CLI_ARGS}}"
+
+  run:darwin:
+    cmds:
+      - bin/server -config examples/config.yaml {{.ARGS}}
+  run:linux:
+    cmds:
+      - bin/server -config examples/config.yaml {{.ARGS}}
+  run:windows:
+    cmds:
+      - bin/server.exe -config examples/config.yaml {{.ARGS}}
+
+  lint:
+    cmds:
+      - golangci-lint run ./... -v --timeout 5m
+
+  scan:
+    cmds:
+      - gosec -conf .gosec.config.json "./..."
+
+  tools:install:golangci-lint:
+    desc: Install golangci-lint
+    cmds:
+      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+
+  tools:install:gosec:
+    desc: Install gosec
+    cmds:
+      - go install github.com/securego/gosec/v2/cmd/gosec@latest
+
+  tools:install:air:
+    desc: Install air
+    cmds:
+      - go install github.com/cosmtrek/air@latest

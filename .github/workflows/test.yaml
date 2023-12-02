@@ -1,0 +1,71 @@
+name: Test
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - 'chart/**'
+      - 'charts/**'
+      - 'scripts/**'
+      - '.github/**'
+      - 'LICENSE'
+      - 'Taskfile.yaml'
+      - '.gitignore'
+      - '.gosec.config.json'
+      - '.editorconfig'
+      - '.goreleaser.yaml'
+      - 'examples/**'
+      - '*.http'
+      - 'web/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: tlz
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      mailhog:
+        image: mailhog/mailhog
+        ports:
+          - 1025:1025
+          - 8025:8025
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3.5.3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4.1.0
+        with:
+          go-version: '1.20'
+
+      - name: Install Task
+        uses: arduino/setup-task@v1.0.3
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Test
+        run: task test
