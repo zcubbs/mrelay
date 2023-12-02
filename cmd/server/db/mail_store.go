@@ -1,31 +1,31 @@
-package repository
+package db
 
 import (
 	"github.com/uptrace/bun"
 	"github.com/zcubbs/mrelay/cmd/server/config"
 )
 
-type MailRepository interface {
+type MailStore interface {
 	// Define CRUD operations for the Mail struct here
 }
 
-func NewMailRepository(conn *bun.DB, cfg config.DatabaseConfig) MailRepository {
+func NewMailStore(conn *bun.DB, cfg config.DatabaseConfig) MailStore {
 	if cfg.Sqlite.Enabled {
-		return &SqliteMailRepository{
+		return &SqliteMailStore{
 			conn: conn,
 		}
 	} else if cfg.Postgres.Enabled {
-		return &PostgresMailRepository{
+		return &PostgresMailStore{
 			conn: conn,
 		}
 	}
 	return nil
 }
 
-type SqliteMailRepository struct {
+type PostgresMailStore struct {
 	conn *bun.DB
 }
 
-type PostgresMailRepository struct {
+type SqliteMailStore struct {
 	conn *bun.DB
 }

@@ -8,30 +8,28 @@ const (
 )
 
 type Configuration struct {
-	Accounts []Account      `mapstructure:"accounts"`
-	Database DatabaseConfig `mapstructure:"database"`
+	Accounts map[string]string `mapstructure:"accounts"`
+	Database DatabaseConfig    `mapstructure:"database"`
 
 	HttpServer HttpServerConfig `mapstructure:"server"`
+	Logging    LoggingConfig    `mapstructure:"logging"`
 
 	Smtp   SmtpConfig   `mapstructure:"smtp"`
 	AwsSes AwsSesConfig `mapstructure:"aws_ses"`
 }
 
 type HttpServerConfig struct {
-	Port        int    `mapstructure:"port"`
-	TlsEnabled  bool   `mapstructure:"tls_enabled"`
-	TlsCertFile string `mapstructure:"tls_cert_file"`
-	TlsKeyFile  string `mapstructure:"tls_key_file"`
+	Port         string   `mapstructure:"port"`
+	EnableCORS   bool     `mapstructure:"enable_cors"`
+	AllowOrigins []string `mapstructure:"allow_origins"`
+	TlsEnabled   bool     `mapstructure:"tls_enabled"`
+	TlsCertFile  string   `mapstructure:"tls_cert_file"`
+	TlsKeyFile   string   `mapstructure:"tls_key_file"`
 }
 
-type Account struct {
-	Name           string        `mapstructure:"name"`
-	Password       string        `mapstructure:"password"`
-	Enabled        bool          `mapstructure:"enabled"`
-	Services       []ServiceType `mapstructure:"services"`
-	AllowedDomains []string      `mapstructure:"allowed_domains"`
-	AllowedIPs     []string      `mapstructure:"allowed_ips"`
-	Rules          []AccountRule `mapstructure:"rules"`
+type LoggingConfig struct {
+	Level      string `mapstructure:"level"`
+	TextFormat bool   `mapstructure:"text_format"`
 }
 
 type AccountRule struct {
@@ -53,6 +51,7 @@ type SQLiteConfig struct {
 type PostgresConfig struct {
 	Enabled     bool   `mapstructure:"enabled"`
 	Host        string `mapstructure:"host"`
+	Port        string `mapstructure:"port"`
 	User        string `mapstructure:"user"`
 	Password    string `mapstructure:"password"`
 	DBName      string `mapstructure:"dbname"`
@@ -61,10 +60,12 @@ type PostgresConfig struct {
 }
 
 type SmtpConfig struct {
-	Host     string `mapstructure:"host"`
-	Port     int    `mapstructure:"port"`
-	Username string `mapstructure:"username"`
-	Password string `mapstructure:"password"`
+	Host        string `mapstructure:"host"`
+	Port        int    `mapstructure:"port"`
+	Username    string `mapstructure:"username"`
+	Password    string `mapstructure:"password"`
+	FromName    string `mapstructure:"from_name"`
+	FromAddress string `mapstructure:"from_address"`
 }
 
 type AwsSesConfig struct {

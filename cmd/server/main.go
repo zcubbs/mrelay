@@ -2,18 +2,12 @@ package main
 
 import (
 	"flag"
-	"fmt"
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
-	"github.com/go-chi/cors"
+	"github.com/zcubbs/mrelay/cmd/server/api"
 	"github.com/zcubbs/mrelay/cmd/server/config"
 	"github.com/zcubbs/mrelay/cmd/server/db"
-	"github.com/zcubbs/mrelay/cmd/server/handler"
-	"github.com/zcubbs/mrelay/cmd/server/repository"
-	"github.com/zcubbs/mrelay/cmd/server/web"
+	"github.com/zcubbs/mrelay/cmd/server/email"
+	"github.com/zcubbs/mrelay/cmd/server/logging"
 	"log"
-	"net/http"
-	"time"
 )
 
 var (
@@ -40,44 +34,28 @@ func main() {
 		log.Fatal("Error initializing database", "error", err)
 	}
 
-	// create repositories
-	mailRepo := repository.NewMailRepository(conn, cfg.Database)
+	// initialize logger
+	logger := logging.NewLogger(cfg.Logging)
 
-	router := chi.NewRouter()
-
-	// Set up middleware
-	router.Use(middleware.Logger)
-	// Cors middleware
-	router.Use(cors.Handler(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:3000"}, // for development
-		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
-		ExposedHeaders:   []string{"Link"},
-		AllowCredentials: false,
-		MaxAge:           300,
-	}))
-
-	// Create handlers and routes
-	mailHandler := handler.NewMailHandler(mailRepo, cfg.Smtp, cfg.AwsSes)
-	router.Mount("/api/mail", mailHandler.Routes())
-
-	// ops handler
-	opsHandler := handler.NewOpsHandler(Version, Commit, Date)
-	router.Mount("/api", opsHandler.Routes())
-
-	// Create a web app router
-	router.Handle("/*", web.SPAHandler())
-
-	// Start the server
-	s := &http.Server{
-		Addr:         fmt.Sprintf(":%d", cfg.HttpServer.Port),
-		Handler:      router,
-		ReadTimeout:  10 * time.Second,
-		WriteTimeout: 10 * time.Second,
-		IdleTimeout:  120 * time.Second,
+	// initialize mailer
+	mailer, err := email.NewMailer(cfg.Smtp)
+	if err != nil {
+		logger.Fatal("Error initializing mailer", "error", err)
 	}
-	log.Printf("Server started on port %s\n", s.Addr)
-	if err := s.ListenAndServe(); err != nil {
-		log.Fatalf("Failed to start server: %v", err)
+
+	// initialize server
+	srv, err := api.NewServer(api.Options{
+		Config:  &cfg,
+		DbConn:  conn,
+		Mailer:  mailer,
+		Version: Version,
+		Commit:  Commit,
+		Date:    Date,
+	})
+	if err != nil {
+		logger.Fatal("Error initializing server", "error", err)
 	}
+
+	// start server
+	srv.Start()
 }
