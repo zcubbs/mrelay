@@ -32,6 +32,20 @@ func InitializeDB(cfg config.DatabaseConfig) (*bun.DB, error) {
 		return nil, fmt.Errorf("no database enabled")
 	}
 
+	// perform migrations
+	err = RunMigrations(db)
+	if err != nil {
+		return nil, fmt.Errorf("failed to run migrations: %w", err)
+	}
+
+	// connection pool settings
+	db.SetMaxOpenConns(10)
+	db.SetMaxIdleConns(5)
+
+	if err := db.Ping(); err != nil {
+		return nil, fmt.Errorf("failed to ping database: %w", err)
+	}
+
 	return db, nil
 }
 

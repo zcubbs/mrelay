@@ -70,7 +70,6 @@ func (srv *Server) Start() {
 	signal.Notify(quit, os.Interrupt)
 	sig := <-quit
 	log.Println("Shutting down server... Reason:", sig)
-	// teardown logic...
 
 	if err := srv.Shutdown(context.Background()); err != nil {
 		panic(err)
