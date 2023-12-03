@@ -5,13 +5,14 @@ import (
 	"errors"
 	"github.com/uptrace/bun"
 	"github.com/zcubbs/mrelay/cmd/server/config"
-	"github.com/zcubbs/mrelay/cmd/server/email"
 	"github.com/zcubbs/mrelay/cmd/server/logging"
+	"github.com/zcubbs/mrelay/cmd/server/mail"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"strings"
+	"syscall"
 )
 
 // Server provides an http.Server.
@@ -22,7 +23,7 @@ type Server struct {
 type Options struct {
 	Config *config.Configuration
 	DbConn *bun.DB
-	Mailer *email.Mailer
+	Mailer mail.Mailer
 	logger logging.StructuredLogger
 
 	Version string
@@ -66,11 +67,12 @@ func (srv *Server) Start() {
 	}()
 	log.Printf("Listening on %s\n", srv.Addr)
 
-	quit := make(chan os.Signal)
-	signal.Notify(quit, os.Interrupt)
-	sig := <-quit
-	log.Println("Shutting down server... Reason:", sig)
+	// handle graceful shutdown
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
+	<-quit
 
+	log.Println("Shutting down server...")
 	if err := srv.Shutdown(context.Background()); err != nil {
 		panic(err)
 	}

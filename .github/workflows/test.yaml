@@ -37,7 +37,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: tlz
+          POSTGRES_DB: postgres
         ports:
           - 5432:5432
         options: >-
@@ -46,11 +46,10 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
-      mailhog:
-        image: mailhog/mailhog
+      mailpit:
+        image: axllent/mailpit
         ports:
           - 1025:1025
-          - 8025:8025
 
     steps:
       - name: Checkout Code

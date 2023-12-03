@@ -15,6 +15,10 @@ func NewAuthHandler() *AuthHandler {
 
 func (h *AuthHandler) Routes() chi.Router {
 	r := chi.NewRouter()
+	r.Post("/login", h.handleLogin)
+	r.Post("/register", h.handleRegister)
+	r.Post("/logout", h.handleLogout)
+	r.Post("/refresh", h.handleRefresh)
 	return r
 }
 

@@ -5,8 +5,8 @@ import (
 	"github.com/zcubbs/mrelay/cmd/server/api"
 	"github.com/zcubbs/mrelay/cmd/server/config"
 	"github.com/zcubbs/mrelay/cmd/server/db"
-	"github.com/zcubbs/mrelay/cmd/server/email"
 	"github.com/zcubbs/mrelay/cmd/server/logging"
+	"github.com/zcubbs/mrelay/cmd/server/mail"
 	"log"
 )
 
@@ -38,10 +38,7 @@ func main() {
 	logger := logging.NewLogger(cfg.Logging)
 
 	// initialize mailer
-	mailer, err := email.NewMailer(cfg.Smtp)
-	if err != nil {
-		logger.Fatal("Error initializing mailer", "error", err)
-	}
+	mailer := mail.NewDefaultMailer(cfg.Smtp)
 
 	// initialize server
 	srv, err := api.NewServer(api.Options{

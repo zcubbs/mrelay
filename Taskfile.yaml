@@ -74,6 +74,11 @@ tasks:
     cmds:
       - gosec -conf .gosec.config.json "./..."
 
+  tools:install:go-sqlite3:
+    desc: Install go-sqlite3
+    cmds:
+      - go install github.com/mattn/go-sqlite3@latest
+
   tools:install:golangci-lint:
     desc: Install golangci-lint
     cmds:
@@ -88,3 +93,16 @@ tasks:
     desc: Install air
     cmds:
       - go install github.com/cosmtrek/air@latest
+
+
+  containers:up:
+    desc: Start containers
+    dir: tests
+    cmds:
+      - docker-compose up -d
+
+  containers:down:
+    desc: Stop containers
+    dir: tests
+    cmds:
+      - docker-compose down -v

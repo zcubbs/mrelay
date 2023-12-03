@@ -15,6 +15,7 @@ func NewAdminHandler() *AdminHandler {
 
 func (h *AdminHandler) Routes() chi.Router {
 	r := chi.NewRouter()
+	r.Get("/users", h.handleGetUsers)
 	return r
 }
 
