@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	configPath = flag.String("config", ".", "Path to the configuration file")
+	configPath = flag.String("config", "", "Path to the configuration file")
 )
 
 var (
@@ -25,17 +25,17 @@ func main() {
 
 	cfg, err := config.LoadConfiguration(*configPath)
 	if err != nil {
-		log.Fatal("Error loading configuration", "error", err)
-	}
-
-	// init db
-	conn, err := db.InitializeDB(cfg.Database)
-	if err != nil {
-		log.Fatal("Error initializing database", "error", err)
+		log.Fatalf("Error loading configuration error=%s", err)
 	}
 
 	// initialize logger
 	logger := logging.NewLogger(cfg.Logging)
+
+	// init db
+	conn, err := db.InitializeDB(cfg.Database)
+	if err != nil {
+		logger.Fatal("Error initializing database", "error", err)
+	}
 
 	// initialize mailer
 	mailer := mail.NewDefaultMailer(cfg.Smtp)

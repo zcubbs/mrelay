@@ -1,0 +1,23 @@
+basePath: /
+info:
+  contact: {}
+  description: This is a Mail-relay API server.
+  title: Mail-relay API
+  version: '"v0.0.0"'
+paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      description: This API can be used as health check.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: api response
+          schema:
+            type: string
+      summary: This API can be used as health check.
+      tags:
+      - ops
+swagger: "2.0"

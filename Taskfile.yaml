@@ -74,6 +74,11 @@ tasks:
     cmds:
       - gosec -conf .gosec.config.json "./..."
 
+  swag:
+    dir: cmd/server
+    cmds:
+      - swag init -g api/api.go
+
   tools:install:go-sqlite3:
     desc: Install go-sqlite3
     cmds:
@@ -94,6 +99,10 @@ tasks:
     cmds:
       - go install github.com/cosmtrek/air@latest
 
+  tools:install:swag:
+    desc: Install swag
+    cmds:
+      - go install github.com/swaggo/swag/cmd/swag@latest
 
   containers:up:
     desc: Start containers

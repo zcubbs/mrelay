@@ -4,14 +4,23 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"github.com/zcubbs/mrelay/cmd/server/api/handler"
 	"github.com/zcubbs/mrelay/cmd/server/auth"
 	"github.com/zcubbs/mrelay/cmd/server/db"
+	"github.com/zcubbs/mrelay/cmd/server/docs"
 	"github.com/zcubbs/mrelay/cmd/server/logging"
 	"github.com/zcubbs/mrelay/cmd/server/web"
 	"time"
+
+	_ "github.com/zcubbs/mrelay/cmd/server/docs"
 )
 
+// New creates a new API server.
+// @title Mail-relay API
+// @version "v0.0.0"
+// @description This is a Mail-relay API server.
+// @BasePath /
 func New(options Options) (*chi.Mux, error) {
 
 	//authStore := db.NewAuthStore(options.DbConn, options.Config.Database)
@@ -44,8 +53,10 @@ func New(options Options) (*chi.Mux, error) {
 	r.Mount("/api/ops", opsHandler.Routes())
 	r.Mount("/api/admin", adminHandler.Routes())
 	r.Mount("/api/mail", mailHandler.Routes("accounts", authStore))
-
+	r.Mount("/swagger", httpSwagger.WrapHandler)
 	r.Handle("/*", web.SPAHandler())
+
+	docs.SwaggerInfo.Version = options.Version
 
 	return r, nil
 }

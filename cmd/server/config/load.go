@@ -5,6 +5,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
 	"github.com/zcubbs/x/pretty"
+	"log"
 	"strings"
 	"sync"
 )
@@ -16,7 +17,7 @@ func LoadConfiguration(configFile string) (Configuration, error) {
 	onceEnv.Do(loadEnv)
 
 	v := viper.New()
-	v.SetConfigFile(configFile)
+	v.SetConfigType("yaml")
 
 	for k, val := range defaults {
 		v.SetDefault(k, val)
@@ -30,6 +31,7 @@ func LoadConfiguration(configFile string) (Configuration, error) {
 	}
 
 	if configFile != "" {
+		v.SetConfigFile(configFile)
 		if err := v.ReadInConfig(); err != nil {
 			return Configuration{}, err
 		}
@@ -46,7 +48,7 @@ func loadEnv() {
 	err := godotenv.Load(".env")
 
 	if err != nil {
-		fmt.Println("no .env file found")
+		log.Println("no .env file found")
 	}
 }
 
@@ -92,7 +94,7 @@ var defaults = map[string]string{
 	"database.postgres.port":         "5432",
 	"database.postgres.auto_migrate": "true",
 	"database.postgres.enabled":      "false",
-	"database.sqlite.enabled":        "false",
+	"database.sqlite.enabled":        "true",
 	"database.sqlite.datasource":     "mrelay.db?_loc=auto",
 	"smtp.host":                      "localhost",
 	"smtp.port":                      "25",

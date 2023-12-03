@@ -1,0 +1,35 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a Mail-relay API server.",
+        "title": "Mail-relay API",
+        "contact": {},
+        "version": "\"v0.0.0\""
+    },
+    "basePath": "/",
+    "paths": {
+        "/": {
+            "get": {
+                "description": "This API can be used as health check.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ops"
+                ],
+                "summary": "This API can be used as health check.",
+                "responses": {
+                    "200": {
+                        "description": "api response",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
