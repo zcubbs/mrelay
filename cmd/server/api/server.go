@@ -13,6 +13,7 @@ import (
 	"os/signal"
 	"strings"
 	"syscall"
+	"time"
 )
 
 // Server provides an http.Server.
@@ -50,8 +51,11 @@ func NewServer(options Options) (*Server, error) {
 	}
 
 	srv := http.Server{
-		Addr:    addr,
-		Handler: api,
+		Addr:         addr,
+		Handler:      api,
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  120 * time.Second,
 	}
 
 	return &Server{&srv}, nil
