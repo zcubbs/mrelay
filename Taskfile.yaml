@@ -11,7 +11,7 @@ tasks:
 
   build:
     cmds:
-      - task: build:web
+      - task: build:web:dashboard
       - task: copy:web
       - task: build:{{OS}}
 
