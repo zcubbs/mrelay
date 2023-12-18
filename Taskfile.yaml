@@ -41,13 +41,13 @@ tasks:
       - task: copy:web:{{OS}}
   copy:web:windows:
     cmds:
-      - powershell -Command Copy-Item -Path web/dashboard/.output/* -Destination cmd/server/web/dist/dashboard/ -Recurse
+      - powershell -Command Copy-Item -Path web/dashboard/.output/* -Destination cmd/server/web/dist/ -Recurse
   copy:web:darwin:
     cmds:
-      - cp -r web/dashboard/.output/* cmd/server/web/dist/dashboard/
+      - cp -r web/dashboard/.output/* cmd/server/web/dist/
   copy:web:linux:
     cmds:
-      - cp -r web/dashboard/.output/* cmd/server/web/dist/dashboard/
+      - cp -r web/dashboard/.output/* cmd/server/web/dist/
 
   run:
     cmds:
