@@ -1,75 +1,36 @@
-# Nuxt 3 Minimal Starter
+# Dashboard
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+<p align="center">
+    <img src="https://shields.io/badge/Nuxt-3.8.2-%2300843e?logo=Nuxt.js&style=for-the-badge" alt="logo-nuxtjs">
+    <img src="https://shields.io/badge/Typescript-v5.2.2-blue?logo=Typescript&style=for-the-badge" alt="logo-typescript">
+</p>
 
-## Setup
+## ✨ About The Project
 
-Make sure to install the dependencies:
+The webapp of the Mail relay project. Is written with the Nuxt framework in TypeScript and includes everything to create a fully functional web app.
 
-```bash
-# npm
-npm install
+## 📦 Components Libraries
 
-# pnpm
-pnpm install
+- [shadcn-vue](https://www.shadcn-vue.com/docs/introduction.html) - Re-usable components built with Radix Vue, and Tailwind CSS
 
-# yarn
-yarn install
+## ℹ️ Pre-requisites
 
-# bun
-bun install
+| Name    | Version      |
+|---------|--------------|
+| Node.js | 18.14.0 or + |
+
+## 🛠️ How to run
+
+- Run task using Taskfile then the APP will be available on port ``3000``
+
+```shell
+task run:web:dashboard 
 ```
 
-## Development Server
+## ⚙️ How to build
 
-Start the development server on `http://localhost:3000`:
+- Build using this command
 
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+```shell
+task build:web:dashboard 
 ```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
