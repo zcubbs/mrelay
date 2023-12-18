@@ -35,6 +35,7 @@ tasks:
     cmds:
       - npm install
       - npm run build
+      - mv .output/* ../../cmd/server/web/dist/dashboard
 
   copy:web:
     cmds:
