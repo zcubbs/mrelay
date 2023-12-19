@@ -37,7 +37,18 @@
     ],
     "rules": {
       "global-require": "off",
-      "no-undef": "off"
+      "no-undef": "off",
+      "vue/multi-word-component-names": "off",
+      "import/extensions": "off",
+      "import/prefer-default-export": "off",
+      "import/no-extraneous-dependencies": "off",
+      "consistent-return": "off",
+      "import/no-unresolved": "off",
+      "no-shadow": "off",
+      "no-underscore-dangle": "off",
+      "@typescript-eslint/no-shadow": [
+        "off"
+      ]
     }
   },
   "eslintIgnore": [
