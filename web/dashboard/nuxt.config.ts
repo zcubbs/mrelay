@@ -1,16 +1,13 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt'],
-  shadcn: {
-    /**
-     * Prefix for all the imported component, eg: shad-button
-     */
-
-    prefix: 'Shad',
-    /**
-     * Directory that the component lives in.
-     * @default "./components/shad"
-     */
-    componentDir: './components/shad',
-  },
+  modules: ['@nuxtjs/tailwindcss'],
+  components: [
+    {
+      path: '~/components/shad',
+      // this is required else Nuxt will autoImport `.ts` file
+      extensions: ['.vue'],
+      // prefix for your components, eg: shad-button
+      prefix: 'Shad',
+    },
+  ],
 })
