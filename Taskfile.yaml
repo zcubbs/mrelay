@@ -11,7 +11,7 @@ tasks:
 
   build:
     cmds:
-      - task: build:web
+      - task: build:web:dashboard
       - task: copy:web
       - task: build:{{OS}}
 
@@ -30,8 +30,8 @@ tasks:
       - go env -w CGO_ENABLED=1 GOOS=linux GOARCH=amd64
       - go build -o bin/server ./cmd/server/main.go
 
-  build:web:
-    dir: web
+  build:web:dashboard:
+    dir: web/dashboard
     cmds:
       - npm install
       - npm run build
@@ -41,13 +41,13 @@ tasks:
       - task: copy:web:{{OS}}
   copy:web:windows:
     cmds:
-      - powershell -Command Copy-Item -Path web/dist/* -Destination cmd/server/web/dist/ -Recurse
+      - powershell -Command Copy-Item -Path web/dashboard/.output/* -Destination cmd/server/web/dist/ -Recurse
   copy:web:darwin:
     cmds:
-      - cp -r web/dist/* cmd/server/web/dist/
+      - cp -r web/dashboard/.output/* cmd/server/web/dist/
   copy:web:linux:
     cmds:
-      - cp -r web/dist/* cmd/server/web/dist/
+      - cp -r web/dashboard/.output/* cmd/server/web/dist/
 
   run:
     cmds:
@@ -66,9 +66,20 @@ tasks:
     cmds:
       - bin/server.exe -config examples/config.yaml {{.ARGS}}
 
+  run:web:dashboard:
+    dir: web/dashboard
+    cmds:
+      - npm install
+      - npm run dev
+
   lint:
     cmds:
       - golangci-lint run ./... -v --timeout 5m
+
+  lint:web:dashboard:
+    dir: web/dashboard
+    cmds:
+      - npm run lint
 
   scan:
     cmds:
@@ -108,10 +119,16 @@ tasks:
     desc: Start containers
     dir: tests
     cmds:
-      - docker-compose up -d
+      - docker compose up -d
+
+  containers:ps:
+    desc: Start containers
+    dir: tests
+    cmds:
+      - docker compose ps
 
   containers:down:
     desc: Stop containers
     dir: tests
     cmds:
-      - docker-compose down -v
+      - docker compose down -v
