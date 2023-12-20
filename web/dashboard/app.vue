@@ -2,7 +2,7 @@
 // Composable
 const { isDarkMode } = useDarkMode()
 
-useHead({ htmlAttrs: { class: computed(() => (isDarkMode.value ? 'dark' : '')) } })
+useHead({ title: 'Mail Relay', htmlAttrs: { class: computed(() => (isDarkMode.value ? 'dark' : '')) } })
 </script>
 
 <template>
