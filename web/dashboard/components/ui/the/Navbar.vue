@@ -50,8 +50,8 @@ const toggleDarkMode = () => {
     </div>
 
     <div class="hidden items-center gap-x-3 lg:flex">
-      <PhosphorIconChartLine v-if="isStatsPage" class="h-5 w-5" />
-      <PhosphorIconTextbox v-else class="h-5 w-5" />
+      <PhosphorIconChartLine v-if="isStatsPage" size="20" />
+      <PhosphorIconTextbox v-else size="20" />
       <h2 class="text-xl">{{ $t(titleIdentifier) }}</h2>
     </div>
 
@@ -59,7 +59,7 @@ const toggleDarkMode = () => {
       <shad-popover>
         <shad-popover-trigger as-child>
           <shad-button id="date">
-            <PhosphorIconCalendarBlank class="mr-2 h-4 w-4" />
+            <PhosphorIconCalendarBlank size="16" class="mr-2" />
             <span> {{ formatTime(date.start.toString(), 'DD/MM/YYYY') }} - {{ formatTime(date.end.toString(), 'DD/MM/YYYY') }} </span>
           </shad-button>
         </shad-popover-trigger>
@@ -69,8 +69,8 @@ const toggleDarkMode = () => {
       </shad-popover>
 
       <div class="cursor-pointer rounded p-1.5 duration-200 hover:bg-primary/10" @click="toggleDarkMode">
-        <PhosphorIconSun v-if="isDarkMode" class="h-5 w-5" />
-        <PhosphorIconMoon v-else class="h-5 w-5" />
+        <PhosphorIconSun v-if="isDarkMode" size="20" />
+        <PhosphorIconMoon v-else size="20" />
       </div>
     </div>
   </div>
