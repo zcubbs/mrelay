@@ -1,5 +1,12 @@
+<script setup lang="ts">
+// Composable
+const { isDarkMode } = useDarkMode()
+
+useHead({ htmlAttrs: { class: computed(() => (isDarkMode.value ? 'dark' : '')) } })
+</script>
+
 <template>
-  <div>
-    <NuxtWelcome />
-  </div>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>

@@ -1,1 +1,12 @@
-{}
+{
+  "navbar": {
+    "menu": {
+      "home": "Accueil",
+      "form": "Accéder au formulaire"
+    },
+    "title": {
+      "stats": "Statistique",
+      "form": "Formulaire de test"
+    }
+  }
+}

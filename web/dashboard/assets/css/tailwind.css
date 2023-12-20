@@ -1,73 +1,118 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
- 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
- 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
- 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
- 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
- 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
- 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
- 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
- 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
- 
-    --ring: 222.2 84% 4.9%;
- 
     --radius: 0.5rem;
+
+    /* Colors */
+    --tailwind-success: 151 45% 34%;
+    --tailwind-warning: 25 80% 63%;
+    --tailwind-danger: 358 45% 49%;
+
+    /* Radix Slate Colors (light & dark) (https://www.radix-ui.com/colors) */
+
+    /* App backgrounds  */
+    --rdx-slate-light-1: 0, 0%, 100%;
+    --rdx-slate-dark-1: 240 6% 7%;
+
+    /* Subtle component backgrounds  */
+    --rdx-slate-light-2: 240 20% 98%;
+    --rdx-slate-dark-2: 220 6% 10%;
+
+    /* UI component backgrounds */
+    --rdx-slate-light-3: 240 11% 95%;
+    --rdx-slate-dark-3: 225 6% 14%;
+    --rdx-slate-light-4: 240 10% 92%;
+    --rdx-slate-dark-4: 210 7% 16%;
+    --rdx-slate-light-5: 230 11% 89%;
+    --rdx-slate-dark-5: 214 7% 19%;
+
+    /* Borders */
+    --rdx-slate-light-6: 240 10% 86%;
+    --rdx-slate-dark-6: 213 8% 23%;
+    --rdx-slate-light-7: 233 82% 82%;
+    --rdx-slate-dark-7: 213 8% 28%;
+    --rdx-slate-light-8: 231 10% 75%;
+    --rdx-slate-dark-8: 212 8% 38%;
+
+    /* Solid backgrounds */
+    --rdx-slate-light-9: 231 6% 57%;
+    --rdx-slate-dark-9: 219 6% 44%;
+    --rdx-slate-light-10: 226 5% 53%;
+    --rdx-slate-dark-10: 222 5% 49%;
+
+    /* Text */
+    --rdx-slate-light-11: 220 6% 40%;
+    --rdx-slate-dark-11: 216 7% 71%;
+    --rdx-slate-light-12: 210 13% 13%;
+    --rdx-slate-dark-12: 220 9% 94%;
+
+    /* Tailwind Colors */
+    --background: var(--rdx-slate-light-3);
+    --foreground: var(--rdx-slate-light-12);
+
+    --muted: var(--rdx-slate-light-4);
+    --muted-foreground: var(--rdx-slate-light-11);
+
+    --popover: var(--rdx-slate-light-1);
+    --popover-foreground: var(--rdx-slate-light-12);
+
+    --card: var(--rdx-slate-light-1);
+    --card-foreground: var(--rdx-slate-light-12);
+
+    --border: var(--rdx-slate-light-6);
+    --input: var(--rdx-slate-light-4);
+
+    --primary: var(--rdx-slate-light-12);
+    --primary-foreground: var(--rdx-slate-light-3);
+
+    --secondary: var(--rdx-slate-light-3);
+    --secondary-foreground: var(--rdx-slate-light-12);
+
+    --accent: var(--rdx-slate-light-3);
+    --accent-foreground: var(--rdx-slate-light-12);
+
+    --destructive: var(--tailwind-danger);
+    --destructive-foreground: var(--rdx-slate-light-12);
+
+    --ring: var(--rdx-slate-light-8);
   }
- 
+
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
- 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
- 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
- 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
- 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
- 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
- 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
- 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
- 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
- 
-    --ring: 212.7 26.8% 83.9%;
+    /* Tailwind Colors */
+    --background: var(--rdx-slate-dark-1);
+    --foreground: var(--rdx-slate-dark-12);
+
+    --muted: var(--rdx-slate-dark-2);
+    --muted-foreground: var(--rdx-slate-dark-11);
+
+    --popover: var(--rdx-slate-dark-1);
+    --popover-foreground: var(--rdx-slate-dark-12);
+
+    --card: var(--rdx-slate-dark-3);
+    --card-foreground: var(--rdx-slate-dark-12);
+
+    --border: var(--rdx-slate-dark-6);
+    --input: var(--rdx-slate-dark-1);
+
+    --primary: var(--rdx-slate-dark-12);
+    --primary-foreground: var(--rdx-slate-light-12);
+
+    --secondary: var(--rdx-slate-dark-3);
+    --secondary-foreground: var(--rdx-slate-dark-12);
+
+    --accent: var(--rdx-slate-dark-3);
+    --accent-foreground: var(--rdx-slate-dark-12);
+
+    --destructive: var(--tailwind-danger);
+    --destructive-foreground: var(--rdx-slate-dark-12);
+
+    --ring: var(--rdx-slate-dark-8);
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
