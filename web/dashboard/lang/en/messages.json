@@ -8,5 +8,15 @@
       "stats": "Statistics",
       "form": "Test form"
     }
+  },
+  "stats": {
+    "card": {
+      "totalEmailSend": {
+        "title": "Total email send"
+      },
+      "topService": {
+        "title": "Top Service"
+      }
+    }
   }
 }
