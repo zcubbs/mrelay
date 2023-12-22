@@ -1,1 +1,31 @@
-{}
+{
+  "navbar": {
+    "menu": {
+      "home": "Accueil",
+      "form": "Accéder au formulaire"
+    },
+    "title": {
+      "stats": "Statistique",
+      "form": "Formulaire de test"
+    }
+  },
+  "stats": {
+    "card": {
+      "totalEmailSend": {
+        "title": "Emails envoyés"
+      },
+      "topService": {
+        "title": "Top Service"
+      },
+      "overviewEmails": {
+        "title": "Vue d'ensemble des emails"
+      },
+      "countEmails": {
+        "title": "Nombre d'emails par service"
+      },
+      "overviewServices": {
+        "title": "Vue d'ensemble des services"
+      }
+    }
+  }
+}

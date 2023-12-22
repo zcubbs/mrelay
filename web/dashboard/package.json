@@ -1,4 +1,5 @@
 {
+  "version": "1.0.0",
   "name": "nuxt-app",
   "private": true,
   "type": "module",
@@ -22,6 +23,7 @@
       "airbnb-base",
       "plugin:vue/vue3-recommended",
       "plugin:nuxt/recommended",
+      "plugin:tailwindcss/recommended",
       "plugin:prettier/recommended"
     ],
     "parserOptions": {
@@ -37,7 +39,18 @@
     ],
     "rules": {
       "global-require": "off",
-      "no-undef": "off"
+      "no-undef": "off",
+      "vue/multi-word-component-names": "off",
+      "import/extensions": "off",
+      "import/prefer-default-export": "off",
+      "import/no-extraneous-dependencies": "off",
+      "consistent-return": "off",
+      "import/no-unresolved": "off",
+      "no-shadow": "off",
+      "no-underscore-dangle": "off",
+      "@typescript-eslint/no-shadow": [
+        "off"
+      ]
     }
   },
   "eslintIgnore": [
@@ -68,6 +81,7 @@
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-vue": "^9.19.2",
     "nuxt": "^3.8.2",
+    "nuxt-phosphor-icons": "^1.0.8",
     "prettier": "^3.1.1",
     "shadcn-nuxt": "^0.1.0",
     "typescript": "^5.3.3",
@@ -76,11 +90,17 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
+    "@vueuse/core": "^10.7.0",
+    "@vueuse/nuxt": "^10.7.0",
+    "chart.js": "^4.4.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "eslint-plugin-tailwindcss": "^3.13.0",
     "lucide-vue-next": "^0.298.0",
     "radix-vue": "^1.2.5",
     "tailwind-merge": "^2.1.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "v-calendar": "^3.1.2",
+    "vue-chartjs": "^5.3.0"
   }
 }
