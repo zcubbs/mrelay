@@ -56,7 +56,7 @@ const toggleDarkMode = () => {
     </div>
 
     <div class="flex items-center gap-x-5">
-      <shad-popover>
+      <shad-popover v-if="isStatsPage">
         <shad-popover-trigger as-child>
           <shad-button id="date">
             <PhosphorIconCalendarBlank size="16" class="mr-2" />
