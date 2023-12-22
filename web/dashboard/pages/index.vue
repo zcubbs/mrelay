@@ -32,6 +32,22 @@
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
       <ui-stats-card-emails-overview />
       <ui-stats-card-emails-count />
+      <shad-card class="border-primary bg-muted shadow dark:border-border dark:bg-background">
+        <shad-card-header>
+          <h4 class="text-lg">{{ $t('stats.card.overviewServices.title') }}</h4>
+        </shad-card-header>
+        <shad-card-content>
+          <ul class="flex flex-col gap-y-6 overflow-auto">
+            <li class="flex items-center gap-x-5">
+              <div class="rounded-full bg-border px-4 py-2">1</div>
+              <div class="flex w-full justify-between">
+                <span>Alerts BL.Predict</span>
+                <span class="font-bold">418</span>
+              </div>
+            </li>
+          </ul>
+        </shad-card-content>
+      </shad-card>
     </div>
   </div>
 </template>

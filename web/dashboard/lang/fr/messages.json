@@ -22,6 +22,9 @@
       },
       "countEmails": {
         "title": "Nombre d'emails par service"
+      },
+      "overviewServices": {
+        "title": "Vue d'ensemble des services"
       }
     }
   }

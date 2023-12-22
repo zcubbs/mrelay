@@ -22,6 +22,9 @@
       },
       "countEmails": {
         "title": "Emails Count Per Service"
+      },
+      "overviewServices": {
+        "title": "Top Service Overview"
       }
     }
   }
