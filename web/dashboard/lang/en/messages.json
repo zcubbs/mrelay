@@ -1,7 +1,7 @@
 {
   "navbar": {
     "menu": {
-      "home": "Accueil",
+      "home": "Statistics",
       "form": "Accéder au formulaire"
     },
     "title": {
@@ -27,5 +27,22 @@
         "title": "Top Service Overview"
       }
     }
+  },
+  "form": {
+    "toast": {
+      "success": "Email sent \uD83C\uDF89"
+    },
+    "tooltip": "Test email sending according to selected server",
+    "input": {
+      "serverLabel": "Server email",
+      "serverPlaceholder": "Select an email server",
+      "emailLabel": "Email",
+      "subjectLabel": "Email subject",
+      "subjectPlaceholder": "My incredible subject",
+      "bodyLabel": "Email body",
+      "bodyPlaceholder": "Hello World !",
+      "fileLabel": "File (falcutative)"
+    },
+    "btnLabel": "Send"
   }
 }
