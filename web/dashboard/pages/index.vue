@@ -1,8 +1,6 @@
-<script lang="ts" setup></script>
-
 <template>
-  <div>
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
+  <div class="flex flex-col gap-y-5">
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6">
       <shad-card class="border-primary bg-muted shadow dark:border-border dark:bg-background">
         <shad-card-header>
           <div class="flex justify-between">
@@ -30,6 +28,10 @@
           </div>
         </shad-card-content>
       </shad-card>
+    </div>
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <ui-stats-card-emails-overview />
+      <ui-stats-card-emails-count />
     </div>
   </div>
 </template>

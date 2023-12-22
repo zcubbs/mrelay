@@ -7,7 +7,7 @@
     <!--  /SIDEBAR  -->
 
     <!--  PAGE  -->
-    <div class="flex h-full flex-col py-6">
+    <div class="flex h-auto flex-col py-6 lg:h-full">
       <slot />
     </div>
     <!--  /PAGE  -->

@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="flex items-center justify-center gap-x-2">
+  <div class="flex items-center justify-center gap-x-2 pb-4 lg:pb-0">
     <PhosphorIconGithubLogo size="16" />
     <div class="group transition duration-300">
       <a href="https://github.com/zcubbs/mrelay" target="_blank">zcubbs/mrelay</a>

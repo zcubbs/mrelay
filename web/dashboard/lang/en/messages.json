@@ -12,10 +12,16 @@
   "stats": {
     "card": {
       "totalEmailSend": {
-        "title": "Total email send"
+        "title": "Email send"
       },
       "topService": {
         "title": "Top Service"
+      },
+      "overviewEmails": {
+        "title": "Total Emails Overview"
+      },
+      "countEmails": {
+        "title": "Emails Count Per Service"
       }
     }
   }
