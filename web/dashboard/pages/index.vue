@@ -23,7 +23,7 @@
         </shad-card-header>
         <shad-card-content>
           <div class="flex justify-between">
-            <p>Alerts BL.Predict</p>
+            <p>Alerts</p>
             <p class="text-lg font-bold">418</p>
           </div>
         </shad-card-content>
@@ -41,7 +41,7 @@
             <li class="flex items-center gap-x-5">
               <div class="rounded-full bg-border px-4 py-2">1</div>
               <div class="flex w-full justify-between">
-                <span>Alerts BL.Predict</span>
+                <span>Alerts</span>
                 <span class="font-bold">418</span>
               </div>
             </li>

@@ -7,7 +7,7 @@
 /dist/
 *.db
 
-/node_modules/
+**/node_modules/
 
 /cmd/server/web/dist/
 !/cmd/server/web/dist/.gitkeep

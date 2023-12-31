@@ -5,7 +5,7 @@ import (
 	"embed"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/migrate"
-	"log"
+	"github.com/zcubbs/log"
 )
 
 //go:embed migrations/*.sql
@@ -34,10 +34,12 @@ func RunMigrations(db *bun.DB) error {
 	}
 
 	if mg.IsZero() {
-		log.Println("No migrations to run")
+		log.Info("no database migrations to run")
 		return nil
 	}
 
-	log.Println("Migrations ran successfully")
+	log.Info("migrations ran successfully",
+		"migrations", mg.Migrations.String(),
+	)
 	return nil
 }

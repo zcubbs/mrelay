@@ -1,12 +1,14 @@
 package db
 
 import (
+	"context"
 	"github.com/uptrace/bun"
 	"github.com/zcubbs/mrelay/cmd/server/config"
+	"github.com/zcubbs/mrelay/cmd/server/models"
 )
 
 type MailStore interface {
-	// Define CRUD operations for the Mail struct here
+	SaveMail(mail *models.Email) error
 }
 
 func NewMailStore(conn *bun.DB, cfg config.DatabaseConfig) MailStore {
@@ -28,4 +30,20 @@ type PostgresMailStore struct {
 
 type SqliteMailStore struct {
 	conn *bun.DB
+}
+
+func (s *PostgresMailStore) SaveMail(mail *models.Email) error {
+	_, err := s.conn.NewInsert().Model(mail).Exec(context.Background())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *SqliteMailStore) SaveMail(mail *models.Email) error {
+	_, err := s.conn.NewInsert().Model(mail).Exec(context.Background())
+	if err != nil {
+		return err
+	}
+	return nil
 }

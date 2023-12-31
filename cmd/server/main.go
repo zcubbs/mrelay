@@ -2,16 +2,12 @@ package main
 
 import (
 	"flag"
+	"github.com/zcubbs/log"
+	"github.com/zcubbs/log/structuredlogger"
 	"github.com/zcubbs/mrelay/cmd/server/api"
 	"github.com/zcubbs/mrelay/cmd/server/config"
 	"github.com/zcubbs/mrelay/cmd/server/db"
-	"github.com/zcubbs/mrelay/cmd/server/logging"
 	"github.com/zcubbs/mrelay/cmd/server/mail"
-	"log"
-)
-
-var (
-	configPath = flag.String("config", "", "Path to the configuration file")
 )
 
 var (
@@ -20,21 +16,54 @@ var (
 	Date    = "unknown"
 )
 
-func main() {
+var cfg *config.Configuration
+
+var configPath = flag.String("config", "", "Path to the configuration file")
+
+func init() {
 	flag.Parse()
 
-	cfg, err := config.LoadConfiguration(*configPath)
+	// initialize logger
+	log.SetLogger(log.NewLogger(
+		structuredlogger.CharmLoggerType,
+		structuredlogger.JSONFormat,
+		structuredlogger.InfoLevel,
+	))
+	var err error
+	cfg, err = config.Load(*configPath)
 	if err != nil {
-		log.Fatalf("Error loading configuration error=%s", err)
+		log.Fatal("failed to load configuration", "error", err)
 	}
 
-	// initialize logger
-	logger := logging.NewLogger(cfg.Logging)
+	// Load configuration
+	log.Info("loaded configuration")
 
+	cfg.BuildInfo.Version = Version
+	cfg.BuildInfo.Commit = Commit
+	cfg.BuildInfo.Date = Date
+
+	log.Info("build info", "version",
+		cfg.BuildInfo.Version, "commit", cfg.BuildInfo.Commit, "date", cfg.BuildInfo.Date)
+
+	if cfg.Debug {
+		log.SetLevel(structuredlogger.DebugLevel)
+		config.PrintConfiguration(*cfg)
+	}
+
+	if cfg.DevMode {
+		log.SetFormat(structuredlogger.TextFormat)
+	} else {
+		log.SetFormat(structuredlogger.JSONFormat)
+	}
+
+	log.Info("loaded configuration")
+}
+
+func main() {
 	// init db
 	conn, err := db.InitializeDB(cfg.Database)
 	if err != nil {
-		logger.Fatal("Error initializing database", "error", err)
+		log.Fatal("Error initializing database", "error", err)
 	}
 
 	// initialize mailer
@@ -42,7 +71,7 @@ func main() {
 
 	// initialize server
 	srv, err := api.NewServer(api.Options{
-		Config:  &cfg,
+		Config:  cfg,
 		DbConn:  conn,
 		Mailer:  mailer,
 		Version: Version,
@@ -50,7 +79,7 @@ func main() {
 		Date:    Date,
 	})
 	if err != nil {
-		logger.Fatal("Error initializing server", "error", err)
+		log.Fatal("Error initializing server", "error", err)
 	}
 
 	// start server

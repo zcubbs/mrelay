@@ -4,10 +4,9 @@ import (
 	"context"
 	"errors"
 	"github.com/uptrace/bun"
+	"github.com/zcubbs/log"
 	"github.com/zcubbs/mrelay/cmd/server/config"
-	"github.com/zcubbs/mrelay/cmd/server/logging"
 	"github.com/zcubbs/mrelay/cmd/server/mail"
-	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -19,13 +18,14 @@ import (
 // Server provides an http.Server.
 type Server struct {
 	*http.Server
+
+	cfg *config.Configuration
 }
 
 type Options struct {
 	Config *config.Configuration
 	DbConn *bun.DB
 	Mailer mail.Mailer
-	logger logging.StructuredLogger
 
 	Version string
 	Commit  string
@@ -34,8 +34,6 @@ type Options struct {
 
 // NewServer creates and configures an APIServer serving all application routes.
 func NewServer(options Options) (*Server, error) {
-	log.Println("configuring server...")
-
 	var addr string
 	port := options.Config.HttpServer.Port
 
@@ -58,27 +56,28 @@ func NewServer(options Options) (*Server, error) {
 		IdleTimeout:  120 * time.Second,
 	}
 
-	return &Server{&srv}, nil
+	return &Server{&srv, options.Config}, nil
 }
 
 // Start runs ListenAndServe on the http.Server with graceful shutdown.
 func (srv *Server) Start() {
-	log.Println("starting server...")
+	log.Info("starting server...")
 	go func() {
 		if err := srv.ListenAndServe(); !errors.Is(err, http.ErrServerClosed) {
 			panic(err)
 		}
 	}()
-	log.Printf("Listening on %s\n", srv.Addr)
+	log.Info("started server",
+		"port", srv.cfg.HttpServer.Port)
 
 	// handle graceful shutdown
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
 	<-quit
 
-	log.Println("Shutting down server...")
+	log.Info("shutting down server...")
 	if err := srv.Shutdown(context.Background()); err != nil {
 		panic(err)
 	}
-	log.Println("Server gracefully stopped")
+	log.Info("server gracefully stopped")
 }

@@ -12,7 +12,7 @@ const { chartData } = createChartData(
   ['January', 'February', 'March', 'April', 'May'],
   [
     {
-      label: 'Alerts BL.Predict',
+      label: 'Alerts',
       data: [40, 20, 12, 50, 10],
     },
   ]

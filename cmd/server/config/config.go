@@ -7,15 +7,24 @@ const (
 	AwsSesService ServiceType = "aws_ses"
 )
 
+type BuildInfo struct {
+	Version string `json:"version"`
+	Commit  string `json:"commit"`
+	Date    string `json:"date"`
+}
+
 type Configuration struct {
-	Accounts map[string]string `mapstructure:"accounts"`
-	Database DatabaseConfig    `mapstructure:"database"`
+	Debug   bool `mapstructure:"debug"`
+	DevMode bool `mapstructure:"dev_mode"`
 
-	HttpServer HttpServerConfig `mapstructure:"server"`
-	Logging    LoggingConfig    `mapstructure:"logging"`
+	Accounts   map[string]string `mapstructure:"accounts"`
+	Database   DatabaseConfig    `mapstructure:"database"`
+	HttpServer HttpServerConfig  `mapstructure:"server"`
+	Logging    LoggingConfig     `mapstructure:"logging"`
+	Smtp       SmtpConfig        `mapstructure:"smtp"`
+	AwsSes     AwsSesConfig      `mapstructure:"aws_ses"`
 
-	Smtp   SmtpConfig   `mapstructure:"smtp"`
-	AwsSes AwsSesConfig `mapstructure:"aws_ses"`
+	BuildInfo BuildInfo
 }
 
 type HttpServerConfig struct {
