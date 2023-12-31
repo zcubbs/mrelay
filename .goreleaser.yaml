@@ -16,7 +16,7 @@ builds:
     dir: .
     hooks:
       pre:
-        - task build:web
+        - task build:web:dashboard
         - task copy:web
     main: cmd/server/main.go
     ldflags:
